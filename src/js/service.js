@@ -5,7 +5,7 @@ const service = {
   async axiosRequest () {
     const options = {
       method: 'GET',
-      url: 'htt/p/s://cors-anywhere.herokuapp.com/https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
+      url: 'https://cors-anywhere.herokuapp.com/https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
       qs: {
         'start': 1,
         'limit': 5000,
@@ -60,8 +60,12 @@ const service = {
       }
       localStorage.setItem('coinMarketCapData', JSON.stringify(dataSorted))
       localStorage.setItem('lastUpdate', new Date())
+      localStorage.setItem('updateStateStatus', true)
+      localStorage.setItem('updateStateError', 'No Error')
       return true
     } catch (error) {
+      localStorage.setItem('updateStateStatus', false)
+      localStorage.setItem('updateStateError', error)
       console.error(error)
       return false
     }

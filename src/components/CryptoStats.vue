@@ -68,6 +68,7 @@ export default {
     }
   },
   async mounted () {
+    this.$store.commit('overlayRequest')
     this.$store.subscribe((mutation, state) => {
       switch (mutation.type) {
         case 'updateCoinMarketCap':
@@ -78,6 +79,8 @@ export default {
     })
     this.state = await service.axiosRequest()
     this.$store.commit('updateCoinMarketCap')
+    this.$store.commit('updateStateData')
+    this.$store.commit('overlayRequest')
   }
 }
 </script>
