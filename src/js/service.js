@@ -5,7 +5,7 @@ const service = {
   async axiosRequest () {
     const options = {
       method: 'GET',
-      url: 'htts://cors-anywhere.herokuapp.com/https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
+      url: 'htt/p/s://cors-anywhere.herokuapp.com/https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
       qs: {
         'start': 1,
         'limit': 5000,
@@ -20,7 +20,6 @@ const service = {
       const response = await axios.request(options)
       let data = response.data.data
       let dataSorted = []
-      console.log(data)
       let lenghtData = data.length
       for (let i = 0; i < lenghtData; i++) {
         dataSorted[i] = {
@@ -59,7 +58,6 @@ const service = {
           dataSorted[i].percentageSupply = dataSorted[i].percentageSupply.toFixed(2)
         }
       }
-      console.log(dataSorted)
       localStorage.setItem('coinMarketCapData', JSON.stringify(dataSorted))
       localStorage.setItem('lastUpdate', new Date())
       return true
