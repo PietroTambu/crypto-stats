@@ -5,7 +5,7 @@ const service = {
   async axiosRequest () {
     const options = {
       method: 'GET',
-      url: 'https://cors-anywhere.herokuapp.com/https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
+      url: 'htts://cors-anywhere.herokuapp.com/https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
       qs: {
         'start': 1,
         'limit': 5000,
@@ -53,17 +53,19 @@ const service = {
           percentThreeMonths: data[i].quote.USD.percent_change_90d,
           price: data[i].quote.USD.price
         }
-        if (dataSorted[i].percentageSupply == Infinity) {
+        if (dataSorted[i].percentageSupply === Infinity) {
           dataSorted[i].percentageSupply = '-'
         } else {
           dataSorted[i].percentageSupply = dataSorted[i].percentageSupply.toFixed(2)
         }
       }
       console.log(dataSorted)
-      return dataSorted
+      localStorage.setItem('coinMarketCapData', JSON.stringify(dataSorted))
+      localStorage.setItem('lastUpdate', new Date())
+      return true
     } catch (error) {
       console.error(error)
-      return { report: false, info: error }
+      return false
     }
   },
   abbrNum: function (number, decPlaces) {
@@ -73,7 +75,7 @@ const service = {
       var size = Math.pow(10,(i+1)*3)
       if(size <= number) {
         number = Math.round(number*decPlaces/size)/decPlaces
-        if((number == 1000) && (i < abbrev.length - 1)) {
+        if((number === 1000) && (i < abbrev.length - 1)) {
           number = 1
           i++
         }

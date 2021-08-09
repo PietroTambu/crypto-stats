@@ -1,7 +1,7 @@
 <template>
   <div>
-    <b-button  @click="myFunction" class="btn-success">Get Data</b-button>
-    <b-table striped hover :items="axiosData" :fields="fields">
+    <h1 class="text-center">{{ this.lastUpdate }}    <small>Syncronized:</small> {{ this.state }}</h1>
+    <b-table striped hover :items="coinMarketCapData" :fields="fields" :dark="true" :responsive="true">
       <template #cell(name)="data">{{ data.value.name }}, <b>{{ data.value.symbol }}</b></template>
       <template #cell(price)="data">{{ '$' + data.value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</template>
       <template #cell(percentOneDay)="data">
@@ -62,13 +62,22 @@ export default {
         { key: 'supply', label: 'Circulating Supply', tdClass: 'align-middle' },
         { key: 'percentageSupply', label: 'Circulating Supply %', tdClass: 'align-middle' }
       ],
-      axiosData: []
+      coinMarketCapData: this.$store.state.coinMarketCap,
+      state: false,
+      lastUpdate: ''
     }
   },
-  methods: {
-    async myFunction () {
-      this.axiosData = await service.axiosRequest()
-    }
+  async mounted () {
+    this.$store.subscribe((mutation, state) => {
+      switch (mutation.type) {
+        case 'updateCoinMarketCap':
+          this.coinMarketCapData = this.$store.state.coinMarketCap
+          this.lastUpdate = this.$store.state.lastUpdate
+          break
+      }
+    })
+    this.state = await service.axiosRequest()
+    this.$store.commit('updateCoinMarketCap')
   }
 }
 </script>
