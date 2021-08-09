@@ -1,5 +1,7 @@
 # crypto-stats
 
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted
+
 ## Project setup
 ```
 yarn install
