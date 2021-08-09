@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-center">{{ this.lastUpdate }}    <small>Syncronized:</small> {{ this.state }}</h1>
+    <h1 class="text-center">{{ this.lastUpdate }}</h1>
     <b-table striped hover :items="coinMarketCapData" :fields="fields" :dark="true" :responsive="true">
       <template #cell(name)="data">{{ data.value.name }}, <b>{{ data.value.symbol }}</b></template>
       <template #cell(price)="data">{{ '$' + data.value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</template>
@@ -13,7 +13,7 @@
         <span class="text-success" v-if="data.value > 0">{{ '+' + data.value.toFixed(4) + '%' }}</span>
       </template>
       <template #cell(marketCap)="data">
-        <span v-if="marketCapFormat">{{'$' + data.value.marketCapFriendlyFormat }}</span>
+        <span v-if="marketCapFormat">{{ '$' + data.value.marketCapFriendlyFormat }}</span>
         <span v-else>{{'$' + data.value.marketCap.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</span>
       </template>
       <template #cell(volumeOneDay)="data">
