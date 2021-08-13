@@ -1,23 +1,6 @@
 <template>
   <div>
     <h1 class="text-center">{{ this.lastUpdate }}</h1>
-    <b-form-group
-      label="Filter"
-      label-for="filter-input"
-      label-cols-sm="3"
-      label-align-sm="right"
-      label-size="sm"
-      class="mb-0"
-    >
-      <b-input-group size="sm">
-        <b-form-input
-          id="filter-input"
-          v-model="filter"
-          type="search"
-          placeholder="Type to Search"
-        ></b-form-input>
-      </b-input-group>
-    </b-form-group>
     <b-table striped hover
              :items="coinMarketCapData"
              :fields="fields"
@@ -29,7 +12,7 @@
              :sort-desc.sync="sortDesc"
              :sort-direction="sortDirection"
     >
-      <template #cell(name)="data">{{ data.value.name }}, <b>{{ data.value.symbol }}</b></template>
+      <template #cell(name)="data"><div class="text-nowrap">{{ data.value.name }}, <b>{{ data.value.symbol }}</b></div></template>
       <template #cell(price)="data">{{ '$' + data.value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</template>
       <template #cell(percentOneDay)="data">
         <span class="text-danger" v-if="data.value < 0">{{ data.value.toFixed(4) + '%' }}</span>
@@ -56,6 +39,18 @@
         <span v-if="isNaN(data.value)"><b-icon-info-circle v-b-popover.hover.leftbottom="'Maximum supply not defined'"></b-icon-info-circle></span>
       </template>
 
+      <template #head(name)>
+        <div class="text-nowrap">
+          <b-input-group size="sm">
+            <b-form-input
+              id="filter-input"
+              v-model="filter"
+              type="search"
+              placeholder="Type to Search: Name"
+            ></b-form-input>
+          </b-input-group>
+        </div>
+      </template>
       <template #head(supply)="data">
         <div @click="supplyFormat = !supplyFormat" class="cursor-pointer text-nowrap">{{ data.label }} <b-icon-arrow-left-right></b-icon-arrow-left-right></div>
       </template>
@@ -82,7 +77,7 @@ export default {
       volumeOneDayFormat: true,
       supplyFormat: true,
       fields: [
-        { key: 'name', label: 'Name', tdClass: 'align-middle', stickyColumn: true, sortable: true },
+        { key: 'name', label: 'Name', tdClass: 'align-middle', stickyColumn: true },
         { key: 'price', label: 'USD price', tdClass: 'align-middle' },
         { key: 'percentOneDay', label: '24h %', tdClass: 'align-middle' },
         { key: 'percentSevenDays', label: '7d %', tdClass: 'align-middle' },
