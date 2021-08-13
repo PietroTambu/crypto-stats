@@ -20,10 +20,14 @@ export default new Vuex.Store({
         state.lastUpdate = null
       } else {
         const date = new Date(localStorage.getItem('lastUpdate'))
+        const viewDate = {}
+        date.getHours() < 10 ? viewDate.hour = String('0' + date.getHours()) : viewDate.hour = date.getHours()
+        date.getMinutes() < 10 ? viewDate.minutes = String('0' + date.getMinutes()) : viewDate.minutes = date.getMinutes()
+        date.getSeconds() < 10 ? viewDate.seconds = String('0' + date.getSeconds()) : viewDate.seconds = date.getSeconds()
         state.lastUpdate =
-          String(date.getHours()) + ':' +
-          String(date.getMinutes()) + ':' +
-          String(date.getSeconds()) + ' - ' +
+          String(viewDate.hour) + ':' +
+          String(viewDate.minutes) + ':' +
+          String(viewDate.seconds) + ' - ' +
           String(date.getDate()) + '/' +
           String(date.getMonth() + 1) + '/' +
           String(date.getFullYear())

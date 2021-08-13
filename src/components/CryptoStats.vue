@@ -1,7 +1,34 @@
 <template>
   <div>
     <h1 class="text-center">{{ this.lastUpdate }}</h1>
-    <b-table striped hover :items="coinMarketCapData" :fields="fields" :dark="true" :responsive="true">
+    <b-form-group
+      label="Filter"
+      label-for="filter-input"
+      label-cols-sm="3"
+      label-align-sm="right"
+      label-size="sm"
+      class="mb-0"
+    >
+      <b-input-group size="sm">
+        <b-form-input
+          id="filter-input"
+          v-model="filter"
+          type="search"
+          placeholder="Type to Search"
+        ></b-form-input>
+      </b-input-group>
+    </b-form-group>
+    <b-table striped hover
+             :items="coinMarketCapData"
+             :fields="fields"
+             :dark="true"
+             :responsive="true"
+             :filter="filter"
+             :filter-included-fields="filterOn"
+             :sort-by.sync="sortBy"
+             :sort-desc.sync="sortDesc"
+             :sort-direction="sortDirection"
+    >
       <template #cell(name)="data">{{ data.value.name }}, <b>{{ data.value.symbol }}</b></template>
       <template #cell(price)="data">{{ '$' + data.value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</template>
       <template #cell(percentOneDay)="data">
@@ -26,7 +53,7 @@
       </template>
       <template #cell(percentageSupply)="data">
         <span v-if="!isNaN(data.value)">{{ data.value }} % </span>
-        <span v-if="isNaN(data.value)"><b-icon-info-circle v-b-popover.hover.bottom="'Maximum supply not defined'"></b-icon-info-circle></span>
+        <span v-if="isNaN(data.value)"><b-icon-info-circle v-b-popover.hover.leftbottom="'Maximum supply not defined'"></b-icon-info-circle></span>
       </template>
 
       <template #head(supply)="data">
@@ -55,7 +82,7 @@ export default {
       volumeOneDayFormat: true,
       supplyFormat: true,
       fields: [
-        { key: 'name', label: 'Name', tdClass: 'align-middle', stickyColumn: true },
+        { key: 'name', label: 'Name', tdClass: 'align-middle', stickyColumn: true, sortable: true },
         { key: 'price', label: 'USD price', tdClass: 'align-middle' },
         { key: 'percentOneDay', label: '24h %', tdClass: 'align-middle' },
         { key: 'percentSevenDays', label: '7d %', tdClass: 'align-middle' },
@@ -66,7 +93,12 @@ export default {
       ],
       coinMarketCapData: this.$store.state.coinMarketCap,
       state: false,
-      lastUpdate: ''
+      lastUpdate: '',
+      sortBy: '',
+      sortDesc: false,
+      sortDirection: 'asc',
+      filter: null,
+      filterOn: []
     }
   },
   async mounted () {
