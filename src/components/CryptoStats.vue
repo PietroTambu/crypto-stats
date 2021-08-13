@@ -30,13 +30,16 @@
       </template>
 
       <template #head(supply)="data">
-        <span @click="supplyFormat = !supplyFormat" class="cursor-pointer">{{ data.label }} <b-icon-arrow-left-right></b-icon-arrow-left-right></span>
+        <div @click="supplyFormat = !supplyFormat" class="cursor-pointer text-nowrap">{{ data.label }} <b-icon-arrow-left-right></b-icon-arrow-left-right></div>
       </template>
       <template #head(volumeOneDay)="data">
-        <span @click="volumeOneDayFormat = !volumeOneDayFormat" class="cursor-pointer">{{ data.label }} <b-icon-arrow-left-right></b-icon-arrow-left-right></span>
+        <div @click="volumeOneDayFormat = !volumeOneDayFormat" class="cursor-pointer text-nowrap">{{ data.label }} <b-icon-arrow-left-right></b-icon-arrow-left-right></div>
       </template>
       <template #head(marketCap)="data">
-        <span @click="marketCapFormat = !marketCapFormat" class="cursor-pointer">{{ data.label }} <b-icon-arrow-left-right></b-icon-arrow-left-right></span>
+        <div @click="marketCapFormat = !marketCapFormat" class="cursor-pointer text-nowrap">{{ data.label }} <b-icon-arrow-left-right></b-icon-arrow-left-right></div>
+      </template>
+      <template #head(percentageSupply)="data">
+        <div class="text-nowrap">{{ data.label }}</div>
       </template>
     </b-table>
   </div>
@@ -52,8 +55,7 @@ export default {
       volumeOneDayFormat: true,
       supplyFormat: true,
       fields: [
-        { key: 'id', label: 'ID', tdClass: 'align-middle' },
-        { key: 'name', label: 'Name', tdClass: 'align-middle' },
+        { key: 'name', label: 'Name', tdClass: 'align-middle', stickyColumn: true },
         { key: 'price', label: 'USD price', tdClass: 'align-middle' },
         { key: 'percentOneDay', label: '24h %', tdClass: 'align-middle' },
         { key: 'percentSevenDays', label: '7d %', tdClass: 'align-middle' },
