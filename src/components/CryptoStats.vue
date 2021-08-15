@@ -12,7 +12,10 @@
              :sort-desc.sync="sortDesc"
              :sort-direction="sortDirection"
     >
-      <template #cell(name)="data"><div class="text-nowrap">{{ data.value.name }}, <b>{{ data.value.symbol }}</b></div></template>
+      <template #cell(name)="data">
+        <div class="text-nowrap cursor-pointer" v-if="widthDeviceCollapse"><b>{{ data.value.symbol }}</b> <b-icon-info-circle v-b-popover.click.rightbottom="data.value.name + ', ' + data.value.symbol"></b-icon-info-circle></div>
+        <div class="text-nowrap" v-else>{{ data.value.name }}, <b>{{ data.value.symbol }}</b></div>
+      </template>
       <template #cell(price)="data">{{ '$' + data.value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</template>
       <template #cell(percentOneDay)="data">
         <span class="text-danger" v-if="data.value < 0">{{ data.value.toFixed(4) + '%' }}</span>
@@ -23,15 +26,15 @@
         <span class="text-success" v-if="data.value > 0">{{ '+' + data.value.toFixed(4) + '%' }}</span>
       </template>
       <template #cell(marketCap)="data">
-        <span v-if="marketCapFormat">{{ '$' + data.value.marketCapFriendlyFormat }}</span>
+        <span v-if="marketCapFormat" class="cursor-pointer" v-b-popover.click.bottom="'$' + data.value.marketCap.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')">{{ '$' + data.value.marketCapFriendlyFormat }}</span>
         <span v-else>{{'$' + data.value.marketCap.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</span>
       </template>
       <template #cell(volumeOneDay)="data">
-        <span v-if="volumeOneDayFormat">{{ '$' + data.value.volumeOneDayFriendlyFormat }}</span>
+        <span v-if="volumeOneDayFormat" class="cursor-pointer" v-b-popover.click.bottom="'$' + data.value.volumeOneDay.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')">{{ '$' + data.value.volumeOneDayFriendlyFormat }}</span>
         <span v-else>{{ '$' + data.value.volumeOneDay.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</span>
       </template>
       <template #cell(supply)="data">
-        <span v-if="supplyFormat">{{ data.value.circulatingSupplyFriendlyFormat }}</span>
+        <span v-if="supplyFormat" class="cursor-pointer" v-b-popover.click.bottom="'$' + data.value.circulatingSupply.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')">{{ data.value.circulatingSupplyFriendlyFormat }}</span>
         <span v-else>{{ data.value.circulatingSupply.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</span>
       </template>
       <template #cell(percentageSupply)="data">
@@ -39,7 +42,7 @@
         <span v-if="isNaN(data.value)"><b-icon-info-circle v-b-popover.hover.leftbottom="'Maximum supply not defined'"></b-icon-info-circle></span>
       </template>
 
-      <template #head(name)>
+      <template #head(name) v-if="!widthDeviceCollapse">
         <div class="text-nowrap">
           <b-input-group size="sm">
             <b-form-input
@@ -77,7 +80,7 @@ export default {
       volumeOneDayFormat: true,
       supplyFormat: true,
       fields: [
-        { key: 'name', label: 'Name', tdClass: 'align-middle', stickyColumn: true },
+        { key: 'name', label: 'Symbol', tdClass: 'align-middle', stickyColumn: true },
         { key: 'price', label: 'USD price', tdClass: 'align-middle' },
         { key: 'percentOneDay', label: '24h %', tdClass: 'align-middle' },
         { key: 'percentSevenDays', label: '7d %', tdClass: 'align-middle' },
@@ -93,8 +96,18 @@ export default {
       sortDesc: false,
       sortDirection: 'asc',
       filter: null,
-      filterOn: []
+      filterOn: [],
+      widthDeviceCollapse: false
     }
+  },
+  methods: {
+    myEventHandler () {
+      window.innerWidth <= 425 ? this.widthDeviceCollapse = true : this.widthDeviceCollapse = false
+    }
+  },
+  created () {
+    window.innerWidth <= 425 ? this.widthDeviceCollapse = true : this.widthDeviceCollapse = false
+    window.addEventListener('resize', this.myEventHandler)
   },
   async mounted () {
     this.$store.commit('overlayRequest')
