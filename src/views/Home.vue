@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div>
     <b-overlay :show="show" rounded="sm">
       <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="!state">
         Unlock the temporarily access to Cross-Origin Resource Sharing: <a href="https://cors-anywhere.herokuapp.com/" target="_blank">CORS Anywhere</a>
@@ -23,7 +23,7 @@ export default {
     return {
       state: this.$store.state.updateState.status,
       error: this.$store.state.updateState.error,
-      show: false
+      show: true
     }
   },
   async mounted () {

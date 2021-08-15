@@ -5,7 +5,7 @@ const service = {
   async axiosRequest () {
     const options = {
       method: 'GET',
-      url: 'https://cors-anywhere.herokuapp.com/https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
+      url: 'htt//cors-anywhere.herokuapp.com/https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
       qs: {
         'start': 1,
         'limit': 5000,

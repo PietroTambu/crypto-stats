@@ -26,15 +26,15 @@
         <span class="text-success" v-if="data.value > 0">{{ '+' + data.value.toFixed(4) + '%' }}</span>
       </template>
       <template #cell(marketCap)="data">
-        <span v-if="marketCapFormat" class="cursor-pointer" v-b-popover.click.bottom="'$' + data.value.marketCap.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')">{{ '$' + data.value.marketCapFriendlyFormat }}</span>
+        <span v-if="marketCapFormat" class="cursor-pointer" v-b-popover.hover.bottom.ds500="'$' + data.value.marketCap.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')">{{ '$' + data.value.marketCapFriendlyFormat }}</span>
         <span v-else>{{'$' + data.value.marketCap.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</span>
       </template>
       <template #cell(volumeOneDay)="data">
-        <span v-if="volumeOneDayFormat" class="cursor-pointer" v-b-popover.click.bottom="'$' + data.value.volumeOneDay.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')">{{ '$' + data.value.volumeOneDayFriendlyFormat }}</span>
+        <span v-if="volumeOneDayFormat" class="cursor-pointer" v-b-popover.hover.bottom.ds500="'$' + data.value.volumeOneDay.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')">{{ '$' + data.value.volumeOneDayFriendlyFormat }}</span>
         <span v-else>{{ '$' + data.value.volumeOneDay.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</span>
       </template>
       <template #cell(supply)="data">
-        <span v-if="supplyFormat" class="cursor-pointer" v-b-popover.click.bottom="'$' + data.value.circulatingSupply.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')">{{ data.value.circulatingSupplyFriendlyFormat }}</span>
+        <span v-if="supplyFormat" class="cursor-pointer" v-b-popover.hover.bottom.ds500="'$' + data.value.circulatingSupply.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')">{{ data.value.circulatingSupplyFriendlyFormat }}</span>
         <span v-else>{{ data.value.circulatingSupply.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</span>
       </template>
       <template #cell(percentageSupply)="data">
@@ -55,13 +55,13 @@
         </div>
       </template>
       <template #head(supply)="data">
-        <div @click="supplyFormat = !supplyFormat" class="cursor-pointer text-nowrap">{{ data.label }} <b-icon-arrow-left-right></b-icon-arrow-left-right></div>
+        <div @click="supplyFormat = !supplyFormat" class="cursor-pointer text-nowrap">{{ data.label }} <span class="btn btn-sm btn-secondary"><b-icon-arrow-left-right></b-icon-arrow-left-right></span></div>
       </template>
       <template #head(volumeOneDay)="data">
-        <div @click="volumeOneDayFormat = !volumeOneDayFormat" class="cursor-pointer text-nowrap">{{ data.label }} <b-icon-arrow-left-right></b-icon-arrow-left-right></div>
+        <div @click="volumeOneDayFormat = !volumeOneDayFormat" class="cursor-pointer text-nowrap">{{ data.label }} <b-button size="sm"><b-icon-arrow-left-right></b-icon-arrow-left-right></b-button></div>
       </template>
       <template #head(marketCap)="data">
-        <div @click="marketCapFormat = !marketCapFormat" class="cursor-pointer text-nowrap">{{ data.label }} <b-icon-arrow-left-right></b-icon-arrow-left-right></div>
+        <div @click="marketCapFormat = !marketCapFormat" class="cursor-pointer text-nowrap">{{ data.label }} <b-button size="sm"><b-icon-arrow-left-right></b-icon-arrow-left-right></b-button></div>
       </template>
       <template #head(percentageSupply)="data">
         <div class="text-nowrap">{{ data.label }}</div>
@@ -103,11 +103,13 @@ export default {
   methods: {
     myEventHandler () {
       window.innerWidth <= 425 ? this.widthDeviceCollapse = true : this.widthDeviceCollapse = false
+      this.filter = ''
     }
   },
   created () {
     window.innerWidth <= 425 ? this.widthDeviceCollapse = true : this.widthDeviceCollapse = false
     window.addEventListener('resize', this.myEventHandler)
+    // window.addEventListener('orientationchange', this.myEventHandler)
   },
   async mounted () {
     this.$store.commit('overlayRequest')
