@@ -18,6 +18,7 @@
   color: #d5d5d5;
   background-color: #343a40;
   height: 100%;
+  overflow: hidden;
 }
 
 #nav {
