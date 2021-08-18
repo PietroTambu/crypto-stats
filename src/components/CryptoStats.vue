@@ -1,8 +1,9 @@
+<!--suppress HtmlUnknownAttribute, HtmlUnknownAttribute -->mlUnknownAttribute -->mlUnknownAttribute -->mlUnknownAttribute -->
 <template>
   <div>
     <b-row align-h="end">
-      <b-col cols="8"><h1 class="text-center" >Sync: {{ this.lastUpdate }}</h1></b-col>
-      <b-col cols="4"><b-button >Update</b-button></b-col>
+      <b-col sm="8"><h1 class="text-center" >Sync: {{ lastUpdate }}</h1></b-col>
+      <b-col sm="3"><b-button @click="updateData" class="mb-2">Update</b-button></b-col>
     </b-row>
     <b-table striped hover
              :items="coinMarketCapData"
@@ -16,9 +17,9 @@
              :sort-direction="sortDirection"
     >
       <template #cell(name)="data">
-        <div class="text-nowrap cursor-pointer" v-if="widthDeviceCollapse">
+        <div class="text-nowrap" v-if="widthDeviceCollapse">
           <b>{{ data.value.symbol }} </b>
-          <b-icon-info-circle v-b-popover.click.rightbottom="data.value.name + ', ' + data.value.symbol"></b-icon-info-circle>
+          <b-icon-info-circle v-b-popover.hover.rightbottom="data.value.name + ', ' + data.value.symbol"></b-icon-info-circle>
         </div>
         <div class="text-nowrap" v-else>{{ data.value.name }}, <b>{{ data.value.symbol }}</b></div>
       </template>
@@ -130,18 +131,11 @@ export default {
     handleOrientationChange () {
       const orientation = window.screen.orientation.type
       if (orientation === 'portrait-primary') {
-        this.orientation = 'verticale'
         this.widthDeviceCollapse = true
         this.filter = ''
       } else if (orientation === 'landscape-primary') {
-        this.orientation = 'orizzontale'
         this.widthDeviceCollapse = false
       }
-    },
-    autoUpdateData () {
-      setInterval(function () {
-        this.updateData()
-      }.bind(this), 300000) // 5 minutes
     },
     async updateData () {
       this.$store.commit('overlayRequest')
@@ -173,7 +167,6 @@ export default {
     this.$store.commit('updateCoinMarketCap')
     this.$store.commit('updateStateData')
     this.$store.commit('overlayRequest')
-    this.autoUpdateData()
   }
 }
 </script>

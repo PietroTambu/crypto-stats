@@ -27,7 +27,7 @@ export default {
     }
   },
   async mounted () {
-    this.$store.subscribe((mutation, state) => {
+    this.$store.subscribe((mutation) => {
       switch (mutation.type) {
         case 'updateStateData':
           this.state = this.$store.state.updateState.status
