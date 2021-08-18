@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h1 class="text-center">Sync: {{ this.lastUpdate }}</h1>
+    <b-row align-h="end">
+      <b-col cols="8"><h1 class="text-center" >Sync: {{ this.lastUpdate }}</h1></b-col>
+      <b-col cols="4"><b-button >Update</b-button></b-col>
+    </b-row>
     <b-table striped hover
              :items="coinMarketCapData"
              :fields="fields"
@@ -14,7 +17,7 @@
     >
       <template #cell(name)="data">
         <div class="text-nowrap cursor-pointer" v-if="widthDeviceCollapse">
-          <b>{{ data.value.symbol }}</b>
+          <b>{{ data.value.symbol }} </b>
           <b-icon-info-circle v-b-popover.click.rightbottom="data.value.name + ', ' + data.value.symbol"></b-icon-info-circle>
         </div>
         <div class="text-nowrap" v-else>{{ data.value.name }}, <b>{{ data.value.symbol }}</b></div>
@@ -57,6 +60,7 @@
           </b-input-group>
         </div>
       </template>
+      <template #head(price)="data"><span class="text-nowrap">{{ data.label }}</span></template>
       <template #head(supply)="data">
         <div class="text-nowrap">{{ data.label }}
           <span class="btn-sm border border-white cursor-pointer changeButton" @click="supplyFormat = !supplyFormat">
@@ -116,17 +120,46 @@ export default {
     }
   },
   methods: {
-    myEventHandler () {
-      window.innerWidth <= 425 ? this.widthDeviceCollapse = true : this.widthDeviceCollapse = false
-      this.filter = ''
+    handleResizeChange () {
+      if (window.innerWidth <= 425) {
+        this.widthDeviceCollapse = true; this.filter = ''
+      } else {
+        this.widthDeviceCollapse = false
+      }
+    },
+    handleOrientationChange () {
+      const orientation = window.screen.orientation.type
+      if (orientation === 'portrait-primary') {
+        this.orientation = 'verticale'
+        this.widthDeviceCollapse = true
+        this.filter = ''
+      } else if (orientation === 'landscape-primary') {
+        this.orientation = 'orizzontale'
+        this.widthDeviceCollapse = false
+      }
+    },
+    autoUpdateData () {
+      setInterval(function () {
+        this.updateData()
+      }.bind(this), 300000) // 5 minutes
+    },
+    async updateData () {
+      this.$store.commit('overlayRequest')
+      this.state = await service.axiosRequest()
+      this.$store.commit('updateCoinMarketCap')
+      this.$store.commit('updateStateData')
+      this.$store.commit('overlayRequest')
     }
   },
   created () {
     window.innerWidth <= 425 ? this.widthDeviceCollapse = true : this.widthDeviceCollapse = false
-    window.addEventListener('resize', this.myEventHandler)
-    // window.addEventListener('orientationchange', this.myEventHandler)
   },
   async mounted () {
+    if (service.isMobile()) {
+      window.addEventListener('orientationchange', this.handleOrientationChange)
+    } else {
+      window.addEventListener('resize', this.handleResizeChange)
+    }
     this.$store.commit('overlayRequest')
     this.$store.subscribe((mutation, state) => {
       switch (mutation.type) {
@@ -140,6 +173,7 @@ export default {
     this.$store.commit('updateCoinMarketCap')
     this.$store.commit('updateStateData')
     this.$store.commit('overlayRequest')
+    this.autoUpdateData()
   }
 }
 </script>
