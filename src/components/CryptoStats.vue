@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-center">{{ this.lastUpdate }}</h1>
+    <h1 class="text-center">Sync: {{ this.lastUpdate }}</h1>
     <b-table striped hover
              :items="coinMarketCapData"
              :fields="fields"
@@ -13,7 +13,10 @@
              :sort-direction="sortDirection"
     >
       <template #cell(name)="data">
-        <div class="text-nowrap cursor-pointer" v-if="widthDeviceCollapse"><b>{{ data.value.symbol }}</b> <b-icon-info-circle v-b-popover.click.rightbottom="data.value.name + ', ' + data.value.symbol"></b-icon-info-circle></div>
+        <div class="text-nowrap cursor-pointer" v-if="widthDeviceCollapse">
+          <b>{{ data.value.symbol }}</b>
+          <b-icon-info-circle v-b-popover.click.rightbottom="data.value.name + ', ' + data.value.symbol"></b-icon-info-circle>
+        </div>
         <div class="text-nowrap" v-else>{{ data.value.name }}, <b>{{ data.value.symbol }}</b></div>
       </template>
       <template #cell(price)="data">{{ '$' + data.value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</template>
@@ -26,15 +29,15 @@
         <span class="text-success" v-if="data.value > 0">{{ '+' + data.value.toFixed(4) + '%' }}</span>
       </template>
       <template #cell(marketCap)="data">
-        <span v-if="marketCapFormat" class="cursor-pointer" v-b-popover.hover.bottom.ds500="'$' + data.value.marketCap.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')">{{ '$' + data.value.marketCapFriendlyFormat }}</span>
+        <span v-if="marketCapFormat" v-b-popover.hover.bottom.ds500="'$' + data.value.marketCap.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')">{{ '$' + data.value.marketCapFriendlyFormat }}</span>
         <span v-else>{{'$' + data.value.marketCap.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</span>
       </template>
       <template #cell(volumeOneDay)="data">
-        <span v-if="volumeOneDayFormat" class="cursor-pointer" v-b-popover.hover.bottom.ds500="'$' + data.value.volumeOneDay.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')">{{ '$' + data.value.volumeOneDayFriendlyFormat }}</span>
+        <span v-if="volumeOneDayFormat" v-b-popover.hover.bottom.ds500="'$' + data.value.volumeOneDay.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')">{{ '$' + data.value.volumeOneDayFriendlyFormat }}</span>
         <span v-else>{{ '$' + data.value.volumeOneDay.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</span>
       </template>
       <template #cell(supply)="data">
-        <span v-if="supplyFormat" class="cursor-pointer" v-b-popover.hover.bottom.ds500="'$' + data.value.circulatingSupply.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')">{{ data.value.circulatingSupplyFriendlyFormat }}</span>
+        <span v-if="supplyFormat" v-b-popover.hover.bottom.ds500="'$' + data.value.circulatingSupply.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')">{{ data.value.circulatingSupplyFriendlyFormat }}</span>
         <span v-else>{{ data.value.circulatingSupply.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</span>
       </template>
       <template #cell(percentageSupply)="data">
@@ -55,13 +58,25 @@
         </div>
       </template>
       <template #head(supply)="data">
-        <div @click="supplyFormat = !supplyFormat" class="cursor-pointer text-nowrap">{{ data.label }} <span class="btn btn-sm btn-secondary"><b-icon-arrow-left-right></b-icon-arrow-left-right></span></div>
+        <div class="text-nowrap">{{ data.label }}
+          <span class="btn-sm border border-white cursor-pointer changeButton" @click="supplyFormat = !supplyFormat">
+            <b-icon-arrow-left-right></b-icon-arrow-left-right>
+          </span>
+        </div>
       </template>
       <template #head(volumeOneDay)="data">
-        <div @click="volumeOneDayFormat = !volumeOneDayFormat" class="cursor-pointer text-nowrap">{{ data.label }} <b-button size="sm"><b-icon-arrow-left-right></b-icon-arrow-left-right></b-button></div>
+        <div class="text-nowrap">{{ data.label }}
+          <span class="btn-sm border border-white cursor-pointer changeButton" @click="volumeOneDayFormat = !volumeOneDayFormat">
+            <b-icon-arrow-left-right></b-icon-arrow-left-right>
+          </span>
+        </div>
       </template>
       <template #head(marketCap)="data">
-        <div @click="marketCapFormat = !marketCapFormat" class="cursor-pointer text-nowrap">{{ data.label }} <b-button size="sm"><b-icon-arrow-left-right></b-icon-arrow-left-right></b-button></div>
+        <div class="text-nowrap">{{ data.label }}
+          <span class="btn-sm border border-white cursor-pointer changeButton" @click="marketCapFormat = !marketCapFormat">
+            <b-icon-arrow-left-right></b-icon-arrow-left-right>
+          </span>
+        </div>
       </template>
       <template #head(percentageSupply)="data">
         <div class="text-nowrap">{{ data.label }}</div>
@@ -132,5 +147,14 @@ export default {
 <style scoped>
  .cursor-pointer {
    cursor: pointer
+ }
+ .changeButton {
+   background-color: #343a40;
+   transition: background-color 0.3s;
+
+ }
+ .changeButton:hover {
+   transition: background-color 0.5s;
+   background-color: #4d5458;
  }
 </style>
