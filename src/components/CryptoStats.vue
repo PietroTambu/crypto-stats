@@ -5,7 +5,7 @@
       <b-col sm="8"><h1 class="text-center" >Sync: {{ lastUpdate }}</h1></b-col>
       <b-col sm="3"><b-button @click="updateData" class="mb-2">Update</b-button></b-col>
     </b-row>
-    <b-table striped hover
+    <b-table striped hover bordered
              :items="coinMarketCapData"
              :fields="fields"
              :dark="true"

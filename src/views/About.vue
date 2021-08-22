@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <h1>Crypto - Stats<b-img width="50" src="./favicon.ico"></b-img></h1>
-    <h2>Crypto<span class="text-secondary">currency</span> Stat<span class="text-secondary">istic</span>s</h2>
+    <h2>Crypto<span class="text-secondary">currencies</span> Stat<span class="text-secondary">istic</span>s</h2>
     <small>API by <a href="https://coinmarketcap.com/" target="_blank" class="text-white">CoinMarketCap</a></small>
     <hr>
     <h5>Final project Front End by Pietro Tamburini for Start2Impact</h5>
