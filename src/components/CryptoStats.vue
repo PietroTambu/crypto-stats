@@ -1,9 +1,8 @@
-<!--suppress HtmlUnknownAttribute, HtmlUnknownAttribute -->mlUnknownAttribute -->mlUnknownAttribute -->mlUnknownAttribute -->
 <template>
   <div>
-    <b-row align-h="end">
-      <b-col sm="8"><h1 class="text-center" >Sync: {{ lastUpdate }}</h1></b-col>
-      <b-col sm="3"><b-button @click="updateData" class="mb-2">Update</b-button></b-col>
+    <b-row align-v="center">
+      <b-col sm="8" class="p-2"><h2 class="m-0">Sync: {{ lastUpdate }}</h2></b-col>
+      <b-col sm="3" align="center" class="p-2"><vs-button @click="updateData" warn gradient>Update</vs-button></b-col>
     </b-row>
     <b-table striped hover bordered
              :items="coinMarketCapData"
@@ -117,7 +116,8 @@ export default {
       sortDirection: 'asc',
       filter: null,
       filterOn: [],
-      widthDeviceCollapse: false
+      widthDeviceCollapse: false,
+      loading: ''
     }
   },
   methods: {
@@ -146,9 +146,15 @@ export default {
     }
   },
   created () {
+    this.loading = this.$vs.loading({
+      background: '#2b2b2c',
+      color: '#fff',
+      type: 'circles'
+    })
     window.innerWidth <= 425 ? this.widthDeviceCollapse = true : this.widthDeviceCollapse = false
   },
   async mounted () {
+    this.loading.close()
     if (service.isMobile()) {
       window.addEventListener('orientationchange', this.handleOrientationChange)
     } else {

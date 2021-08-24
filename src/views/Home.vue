@@ -1,13 +1,17 @@
 <template>
   <div>
-    <b-overlay :show="show" rounded="sm">
-      <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="!state">
-        Unlock the temporarily access to Cross-Origin Resource Sharing: <a href="https://cors-anywhere.herokuapp.com/" target="_blank">CORS Anywhere</a>
-        <br> Once enable: <u onclick="location.reload()" class="text-primary" style="cursor: pointer">Reload</u> | {{ error }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      <CryptoStats />
-    </b-overlay>
+    <vs-alert :hidden="!show" color='danger' class="mb-3 text-start">
+      <template #title>
+        Failed to fetch Data
+      </template>
+      Try:
+      <ol>
+        <li>Unlock the temporarily access to Cross-Origin Resource Sharing: <a href="https://cors-anywhere.herokuapp.com/" target="_blank">CORS Anywhere</a></li>
+        <li>Once enable: <a onclick="location.reload()" class="text-primary" style="cursor: pointer">Reload</a></li>
+      </ol>
+      <b>{{ error }}</b>
+    </vs-alert>
+    <CryptoStats />
   </div>
 </template>
 
@@ -21,21 +25,28 @@ export default {
   },
   data: function () {
     return {
-      state: this.$store.state.updateState.status,
       error: this.$store.state.updateState.error,
-      show: true
+      show: false,
+      loading: ''
     }
   },
   async mounted () {
     this.$store.subscribe((mutation) => {
       switch (mutation.type) {
         case 'updateStateData':
-          this.state = this.$store.state.updateState.status
           this.error = this.$store.state.updateState.error
-          this.show = true
+          this.show = !this.$store.state.updateState.status
           break
         case 'overlayRequest':
-          this.show = this.$store.state.show
+          if (this.$store.state.loading) {
+            this.loading = this.$vs.loading({
+              background: '#2b2b2c',
+              color: '#fff',
+              type: 'circles'
+            })
+          } else {
+            this.loading.close()
+          }
           break
       }
     })

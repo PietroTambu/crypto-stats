@@ -1,5 +1,6 @@
 /* eslint-disable */
 // noinspection JSUnresolvedVariable
+import Offlinedata from '../assets/OfflineData.json'
 
 const axios = require('axios')
 
@@ -66,9 +67,14 @@ const service = {
       localStorage.setItem('updateStateError', 'No Error')
       return true
     } catch (error) {
+      console.log(error)
       localStorage.setItem('updateStateStatus', false)
       localStorage.setItem('updateStateError', error)
       console.error(error)
+      if (localStorage.getItem('coinMarketCapData') === null) {
+        localStorage.setItem('coinMarketCapData', JSON.stringify(Offlinedata))
+        localStorage.setItem('lastUpdate', new Date(2021, 7, 24, 15, 5, 0))
+      }
       return false
     }
   },
