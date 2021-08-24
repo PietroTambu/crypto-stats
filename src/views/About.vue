@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <h1>Crypto - Stats<b-img width="50" src="./favicon.ico"></b-img></h1>
+    <h1>Crypto Stats<b-img width="50" src="./favicon.ico"></b-img></h1>
     <h2>Crypto<span class="text-secondary">currencies</span> Stat<span class="text-secondary">istic</span>s</h2>
     <small>API by <a href="https://coinmarketcap.com/" target="_blank" class="text-white">CoinMarketCap</a></small>
     <hr>
@@ -11,7 +11,8 @@
       <li>Google Firebase</li>
       <li>WebStorm IDE</li>
       <li>CoinMarketCap API</li>
-      <li class="text-secondary">Available on <a href="https://github.com/PietroTambu/crypto-stats" target="_blank" class="text-white">Github</a></li>
+      <li>Available on <a href="https://github.com/PietroTambu/crypto-stats" target="_blank" class="text-white">Github</a></li>
+      <li>Visit my site at <a href="https://pietro-tamburini.it" class="text-white">pietro-tamburini.it</a></li>
     </ul>
   </div>
 </template>

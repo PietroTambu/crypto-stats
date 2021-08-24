@@ -1,5 +1,8 @@
 <template>
   <div>
+    <span class="mt-1 mb-3 display-5" style="font-family: Metropolis-Bold, serif">
+      Crypto<span class="opacity-25">currencies</span> Stat<span class="opacity-25">istic</span>s
+    </span>
     <vs-alert :hidden="!show" color='danger' class="mb-3 text-start">
       <template #title>
         Failed to fetch Data
@@ -53,3 +56,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.text-opacity {
+  color: rgba(255,255,255,0.25)
+}
+</style>

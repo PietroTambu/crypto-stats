@@ -1,8 +1,10 @@
 <template>
   <div>
     <b-row align-v="center">
-      <b-col sm="8" class="p-2"><h2 class="m-0">Sync: {{ lastUpdate }}</h2></b-col>
-      <b-col sm="3" align="center" class="p-2"><vs-button @click="updateData" warn gradient>Update</vs-button></b-col>
+      <b-col sm="8" class="py-2 px-3"><span class="display-6">Sync: {{ lastUpdate }}</span></b-col>
+      <b-col sm="3" align="center" class="p-2">
+        <vs-button @click="updateData" size="large" warn gradient>Update <b-img height="30" :src="getImage('Crypto-Stats-Logo', 'png')" alt="Crypto stats logo"></b-img></vs-button>
+      </b-col>
     </b-row>
     <b-table striped hover bordered
              :items="coinMarketCapData"
@@ -143,6 +145,9 @@ export default {
       this.$store.commit('updateCoinMarketCap')
       this.$store.commit('updateStateData')
       this.$store.commit('overlayRequest')
+    },
+    getImage (name, extension) {
+      return require('@/assets/' + name + '.' + extension)
     }
   },
   created () {

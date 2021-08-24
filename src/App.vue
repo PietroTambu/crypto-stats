@@ -10,6 +10,13 @@
 </template>
 
 <style lang="scss">
+@font-face {
+  font-family: Metropolis-Bold;
+  src: url("./fonts/Metropolis-Bold.otf");
+}
+body {
+  height: 100vh;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -17,7 +24,6 @@
   text-align: center;
   color: #d5d5d5;
   background-color: #343a40;
-  height: 100%;
   overflow: hidden;
 }
 
