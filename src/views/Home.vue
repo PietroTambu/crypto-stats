@@ -1,30 +1,28 @@
 <template>
   <div>
-    <span class="mt-1 mb-3 display-5" style="font-family: Metropolis-Bold, serif">
-      Crypto<span class="opacity-25">currencies</span> Stat<span class="opacity-25">istic</span>s
-    </span>
+    <navbar :isActive="{ home: true }" />
+    <Header />
     <vs-alert :hidden="!show" color='danger' class="mb-3 text-start">
       <template #title>
         Failed to fetch Data
       </template>
-      Try:
-      <ol>
-        <li>Unlock the temporarily access to Cross-Origin Resource Sharing: <a href="https://cors-anywhere.herokuapp.com/" target="_blank">CORS Anywhere</a></li>
-        <li>Once enable: <a onclick="location.reload()" class="text-primary" style="cursor: pointer">Reload</a></li>
-      </ol>
-      <b>{{ error }}</b>
+      <b style="font-size: 1rem">{{ error }}</b>
     </vs-alert>
     <CryptoStats />
   </div>
 </template>
 
 <script>
-import CryptoStats from '@/components/CryptoStats.vue'
+import Navbar from '../components/Navbar/Navbar'
+import Header from '../components/Header/Header'
+import CryptoStats from '@/components/CryptoStats/CryptoStats.vue'
 
 export default {
   name: 'Home',
   components: {
-    CryptoStats
+    CryptoStats,
+    Navbar,
+    Header
   },
   data: function () {
     return {
@@ -33,7 +31,30 @@ export default {
       loading: ''
     }
   },
+  created () {
+    this.loading = this.$vs.loading({
+      background: '#2b2b2c',
+      color: '#fff',
+      type: 'circles'
+    })
+  },
+  methods: {
+    updateOnlineStatus (e) {
+      console.log(e)
+    },
+    isOnline () {
+      console.log('Now I\'m online!')
+    },
+    isOffline () {
+      console.log('Now I\'m offline!')
+    }
+  },
   async mounted () {
+    window.addEventListener('online', this.updateOnlineStatus)
+    window.addEventListener('offline', this.updateOnlineStatus)
+    try {
+      this.loading.close()
+    } catch { console.loc('Loading already stopped') }
     this.$store.subscribe((mutation) => {
       switch (mutation.type) {
         case 'updateStateData':
@@ -56,9 +77,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.text-opacity {
-  color: rgba(255,255,255,0.25)
-}
-</style>

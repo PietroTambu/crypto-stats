@@ -1,0 +1,35 @@
+@import '../../styles/app';
+
+.navbar-dark {
+  .navbar-brand {
+    color: $navbar-dark-brand-color;
+    &:hover,
+    &:focus {
+      color: $navbar-dark-brand-hover-color;
+    }
+  }
+  .navbar-nav {
+    .nav-link {
+      color: $navbar-dark-color;
+      &:hover,
+      &:focus {
+        color: $navbar-dark-hover-color;
+      }
+      &.disabled {
+        color: $navbar-dark-disabled-color;
+      }
+    }
+    .show > .nav-link,
+    .nav-link.active {
+      color: $navbar-dark-active-color;
+    }
+  }
+  .navbar-text {
+    color: $navbar-dark-color;
+    a,
+    a:hover,
+    a:focus {
+      color: $navbar-dark-active-color;
+    }
+  }
+}

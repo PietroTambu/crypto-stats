@@ -5,7 +5,6 @@ import store from './store'
 import firebase from 'firebase/app'
 import Vuesax from 'vuesax'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-import VueMobileDetection from 'vue-mobile-detection'
 
 import 'firebase/analytics'
 
@@ -17,7 +16,6 @@ Vue.config.productionTip = false
 Vue.use(Vuesax)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
-Vue.use(VueMobileDetection)
 
 const firebaseConfig = {
   apiKey: process.env.VUE_APP_FIREBASE_API_KEY,

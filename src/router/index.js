@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
 import Home from '../views/Home.vue'
+import About from '../views/About.vue'
+import ErrorPage from '../views/Error.vue'
 
 Vue.use(VueRouter)
 
@@ -13,12 +16,16 @@ const routes = [
   {
     path: '/about',
     name: 'About',
-    component: () => import('../views/About.vue')
+    component: About
+  },
+  {
+    path: '*',
+    name: 'Error',
+    component: ErrorPage
   }
 ]
 
-const router = new VueRouter({
+export default new VueRouter({
+  mode: 'history',
   routes
 })
-
-export default router
