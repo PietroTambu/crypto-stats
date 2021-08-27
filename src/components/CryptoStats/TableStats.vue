@@ -63,7 +63,7 @@
       </template>
       <template #cell(percentOneDay)="data">
         <span class="mx-1" v-if="isNaN(data.value)">Not Found</span>
-        <span class="text-danger mx-1" v-else-if="data.value < 0">${{formatNumber(data.value, 4)}} %</span>
+        <span class="text-danger mx-1" v-else-if="data.value < 0">{{formatNumber(data.value, 4)}} %</span>
         <span class="text-success mx-1" v-else>+{{formatNumber(data.value, 4)}} %</span>
       </template>
       <template #cell(percentSevenDays)="data">
