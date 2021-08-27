@@ -1,4 +1,6 @@
-# crypto-stats
+# Crypto Stats
+Powered by [Vue.js](https://vuejs.org/)  
+Hosting: [Here](https://cryptostats.pietro-tamburini.it)
 
 ## Project setup
 ```

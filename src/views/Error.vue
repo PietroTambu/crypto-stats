@@ -2,7 +2,8 @@
   <div>
     <Navbar :isActive="{ error: true}" />
     <Header />
-    <h1 class="text-center mt-5">404 Not Found</h1>
+    <hr>
+    <h1 class="text-center mt-5">404 Not Found...</h1>
   </div>
 </template>
 

@@ -10,6 +10,8 @@
   }
   .navbar-nav {
     .nav-link {
+      font-size: 1.15rem;
+      padding: 0.2rem;
       color: $navbar-dark-color;
       &:hover,
       &:focus {
@@ -18,6 +20,11 @@
       &.disabled {
         color: $navbar-dark-disabled-color;
       }
+    }
+    span {
+      font-size: 1.15rem;
+      padding: 0.2rem;
+      color: $navbar-dark-color;
     }
     .show > .nav-link,
     .nav-link.active {

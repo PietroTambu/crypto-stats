@@ -1,4 +1,4 @@
-
+// SASS mixins
 @mixin metropolis ($type: Regular) {
-  font-family: Metropolis- + $type
+  font-family: Metropolis-#{$type}
 }

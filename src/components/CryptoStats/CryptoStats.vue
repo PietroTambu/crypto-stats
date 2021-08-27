@@ -14,21 +14,6 @@ export default {
   components: {
     UpdateStats,
     TableStats
-  },
-  data: function () {
-    return {
-      loading: ''
-    }
-  },
-  created () {
-    this.loading = this.$vs.loading({
-      background: '#2b2b2c',
-      color: '#fff',
-      type: 'circles'
-    })
-  },
-  mounted () {
-    this.loading.close()
   }
 }
 </script>

@@ -1,8 +1,7 @@
 {
   "name": "crypto-stats",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "private": true,
-  "public": "public",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -17,6 +16,7 @@
     "firebase": "^8.10.0",
     "firebase-tools": "^9.16.5",
     "jquery": "^3.6.0",
+    "lodash": "^4.17.21",
     "request-promise": "^4.2.6",
     "vue": "^2.6.14",
     "vue-router": "^3.2.0",

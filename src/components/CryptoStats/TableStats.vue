@@ -1,13 +1,13 @@
 <template>
   <div>
-    <b-table class="text-center" striped hover bordered responsive dark
+    <b-table class="text-center text-nowrap" striped hover bordered responsive dark
         :items="coinMarketCapData"
         :fields="fields"
         :filter="filter"
         sort-direction="asc"
     >
       <template #head(name)="data">
-        <div class="text-nowrap d-none d-sm-block">
+        <div class="d-none d-sm-block">
           <b-input-group size="sm">
             <b-form-input
               id="filter-input"
@@ -17,82 +17,85 @@
             ></b-form-input>
           </b-input-group>
         </div>
-        <div class="text-nowrap d-block d-sm-none"> {{ data.label }} </div>
-      </template>
-      <template #head(price)="data">
-        <span class="text-nowrap">{{ data.label }}</span>
+        <div class="d-block d-sm-none">{{data.label}}</div>
       </template>
       <template #head(supply)="data">
-        <div class="text-nowrap">
-          <span class="ms-1">{{ data.label }}</span>
+        <div>
+          <span class="ms-1">{{data.label}}</span>
           <vs-button size="small" @click="dataFormat.circulatingSupply = !dataFormat.circulatingSupply" color="#6c757d" gradient class="d-inline-block">
             <b-icon-arrow-left-right></b-icon-arrow-left-right>
           </vs-button>
         </div>
       </template>
+      <template #head(percentageSupply)="data">
+        <span class="mx-2">{{data.label}}</span>
+      </template>
       <template #head(volumeOneDay)="data">
-        <div class="text-nowrap">
-          <span class="ms-1">{{ data.label }}</span>
+        <div>
+          <span class="ms-1">{{data.label}}</span>
           <vs-button size="small" @click="dataFormat.volumeOneDay = !dataFormat.volumeOneDay" color="#6c757d" gradient class="d-inline-block">
             <b-icon-arrow-left-right></b-icon-arrow-left-right>
           </vs-button>
         </div>
       </template>
       <template #head(marketCap)="data">
-        <div class="text-nowrap">
-          <span class="ms-1">{{ data.label }}</span>
+        <div>
+          <span class="ms-1">{{data.label}}</span>
           <vs-button size="small" @click="dataFormat.marketCap = !dataFormat.marketCap" color="#6c757d" gradient class="d-inline-block">
             <b-icon-arrow-left-right></b-icon-arrow-left-right>
           </vs-button>
         </div>
       </template>
-      <template #head(percentageSupply)="data">
-        <div class="text-nowrap">{{ data.label }}</div>
-      </template>
       <template #cell(name)="data">
-        <div class="text-nowrap d-block d-sm-none">
-          <b>{{ data.value.symbol }} </b>
+        <div class="d-block d-sm-none">
+          <b>{{data.value.symbol}} </b>
           <vs-tooltip dark right class="d-inline-block">
             <b-icon-info-circle></b-icon-info-circle>
-            <template #tooltip>
-              {{ data.value.name + ', ' + data.value.symbol }}
+            <template #tooltip>{{data.value.name}}, {{data.value.symbol}}
             </template>
           </vs-tooltip>
         </div>
-        <div class="text-nowrap d-none d-sm-block">{{ data.value.name }}, <b>{{ data.value.symbol }}</b></div>
+        <div class="d-none d-sm-block">{{data.value.name}}, <b>{{data.value.symbol}}</b></div>
       </template>
       <template #cell(price)="data">
-        {{ '$' + data.value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+        <span class="mx-1" v-if="!isNaN(data.value)">${{formatNumber(data.value, 2, true)}}</span>
+        <span class="mx-1" v-else>Not Found</span>
       </template>
       <template #cell(percentOneDay)="data">
-        <span class="text-danger" v-if="data.value < 0">{{ data.value.toFixed(4) + '%' }}</span>
-        <span class="text-success" v-if="data.value > 0">{{ '+' + data.value.toFixed(4) + '%' }}</span>
+        <span class="mx-1" v-if="isNaN(data.value)">Not Found</span>
+        <span class="text-danger mx-1" v-else-if="data.value < 0">${{formatNumber(data.value, 4)}} %</span>
+        <span class="text-success mx-1" v-else>+{{formatNumber(data.value, 4)}} %</span>
       </template>
       <template #cell(percentSevenDays)="data">
-        <span class="text-danger" v-if="data.value < 0">{{ data.value.toFixed(4) + '%' }}</span>
-        <span class="text-success" v-if="data.value > 0">{{ '+' + data.value.toFixed(4) + '%' }}</span>
+        <span class="mx-1" v-if="isNaN(data.value)">Not Found</span>
+        <span class="text-danger" v-else-if="data.value < 0">{{data.value.toFixed(4)}} %</span>
+        <span class="text-success" v-else>+{{data.value.toFixed(4)}} %</span>
       </template>
       <template #cell(marketCap)="data">
-        <span v-if="dataFormat.marketCap" v-b-popover.hover.bottom.ds500="'$' + data.value.marketCap.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')">{{ '$' + data.value.marketCapFriendlyFormat }}</span>
-        <span v-else>{{'$' + data.value.marketCap.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</span>
+        <span v-if="dataFormat.marketCap && data.value.marketCap !== 0" v-b-popover.hover.bottom.ds500="`$${formatNumber(data.value.marketCap, 3, true)}`">${{data.value.marketCapFriendlyFormat}}</span>
+        <span v-else-if="data.value.marketCap === 0" v-b-popover.hover.bottom.ds500="'Not Found'">Not Found</span>
+        <span v-else>${{formatNumber(data.value.marketCap, 3, true)}}</span>
       </template>
       <template #cell(volumeOneDay)="data">
-        <span v-if="dataFormat.volumeOneDay" v-b-popover.hover.bottom.ds500="'$' + data.value.volumeOneDay.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')">{{ '$' + data.value.volumeOneDayFriendlyFormat }}</span>
-        <span v-else>{{ '$' + data.value.volumeOneDay.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</span>
+        <span v-if="dataFormat.volumeOneDay && data.value.volumeOneDay !== 0" v-b-popover.hover.bottom.ds500="`$${formatNumber(data.value.volumeOneDay, 3, true)}`">${{data.value.volumeOneDayFriendlyFormat}}</span>
+        <span v-else-if="data.value.volumeOneDay === 0" v-b-popover.hover.bottom.ds500="'Not Found'">Not Found</span>
+        <span v-else>${{formatNumber(data.value.volumeOneDay, 3, true)}}</span>
       </template>
       <template #cell(supply)="data">
-        <span v-if="dataFormat.circulatingSupply" v-b-popover.hover.bottom.ds500="'$' + data.value.circulatingSupply.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ',')">{{ data.value.circulatingSupplyFriendlyFormat }}</span>
-        <span v-else>{{ data.value.circulatingSupply.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</span>
+        <span v-if="dataFormat.circulatingSupply && data.value.circulatingSupply !== 0" v-b-popover.hover.bottom.ds500="formatNumber(data.value.circulatingSupply, 3, true)">{{data.value.circulatingSupplyFriendlyFormat}}</span>
+        <span v-else-if="data.value.circulatingSupply === 0" v-b-popover.hover.bottom.ds500="'Not Found'">Not Found</span>
+        <span v-else>{{formatNumber(data.value.circulatingSupply, 2, true)}}</span>
       </template>
       <template #cell(percentageSupply)="data">
-        <span v-if="!isNaN(data.value)">{{ data.value }} % </span>
-        <span v-if="isNaN(data.value)">
+        <span v-if="data.value.dataFetched && data.value.isSetMaximum">{{data.value.percentage}} %</span>
+        <span v-else-if="!data.value.dataFetched"> Not Found </span>
+        <span v-else>
           <vs-tooltip dark bottom disabled>
             <vs-button color='#6c757d' size="small" gradient class="mx-auto my-0">
               <b-icon-info-circle></b-icon-info-circle>
             </vs-button>
             <template #tooltip>
-              Maximum supply not defined
+              {{data.value.percentage}}
             </template>
           </vs-tooltip>
         </span>
@@ -103,6 +106,7 @@
 
 <script>
 import service from '@/core/service'
+import helpers from '@/core/helpers'
 
 export default {
   name: 'TableStats',
@@ -129,9 +133,14 @@ export default {
       loading: ''
     }
   },
+  methods: {
+    formatNumber (number, toFixed, separateThousand) {
+      return helpers.formatNumber(number, toFixed, separateThousand)
+    }
+  },
   async mounted () {
     this.$store.commit('overlayRequest')
-    this.$store.subscribe((mutation, state) => {
+    this.$store.subscribe((mutation) => {
       switch (mutation.type) {
         case 'updateCoinMarketCap':
           this.coinMarketCapData = this.$store.state.coinMarketCap

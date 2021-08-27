@@ -1,11 +1,9 @@
 <template>
   <div>
-    <navbar :isActive="{ home: true }" />
+    <Navbar :isActive="{ home: true }" />
     <Header />
     <vs-alert :hidden="!show" color='danger' class="mb-3 text-start">
-      <template #title>
-        Failed to fetch Data
-      </template>
+      <template #title>Failed to fetch Data</template>
       <b style="font-size: 1rem">{{ error }}</b>
     </vs-alert>
     <CryptoStats />
@@ -31,30 +29,7 @@ export default {
       loading: ''
     }
   },
-  created () {
-    this.loading = this.$vs.loading({
-      background: '#2b2b2c',
-      color: '#fff',
-      type: 'circles'
-    })
-  },
-  methods: {
-    updateOnlineStatus (e) {
-      console.log(e)
-    },
-    isOnline () {
-      console.log('Now I\'m online!')
-    },
-    isOffline () {
-      console.log('Now I\'m offline!')
-    }
-  },
-  async mounted () {
-    window.addEventListener('online', this.updateOnlineStatus)
-    window.addEventListener('offline', this.updateOnlineStatus)
-    try {
-      this.loading.close()
-    } catch { console.loc('Loading already stopped') }
+  beforeMount () {
     this.$store.subscribe((mutation) => {
       switch (mutation.type) {
         case 'updateStateData':

@@ -37,8 +37,6 @@ export default new Vuex.Store({
       state.loading = !state.loading
     }
   },
-  actions: {
-  },
-  modules: {
-  }
+  actions: {},
+  modules: {}
 })
