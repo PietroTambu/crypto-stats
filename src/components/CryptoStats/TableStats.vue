@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <b-table class="text-center text-nowrap" striped hover bordered responsive dark
+  <div >
+    <b-table id="table" class="text-center text-nowrap" striped hover bordered responsive dark sticky-header="fit-content" v-dragscroll style="overflow: hidden;"
         :items="coinMarketCapData"
         :fields="fields"
         :filter="filter"
@@ -48,7 +48,7 @@
       </template>
       <template #cell(name)="data">
         <div class="d-block d-sm-none">
-          <b>{{data.value.symbol}} </b>
+          <b>{{data.value.symbol}}</b>
           <vs-tooltip dark right class="d-inline-block">
             <b-icon-info-circle></b-icon-info-circle>
             <template #tooltip>{{data.value.name}}, {{data.value.symbol}}
@@ -139,6 +139,9 @@ export default {
     }
   },
   async mounted () {
+    const table = document.getElementById('table')
+    table.addEventListener('mousedown', () => { table.style.cursor = 'grab' })
+    table.addEventListener('mouseup', () => { table.style.cursor = 'default' })
     this.$store.commit('overlayRequest')
     this.$store.subscribe((mutation) => {
       switch (mutation.type) {

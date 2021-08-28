@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import firebase from 'firebase/app'
 import Vuesax from 'vuesax'
+import VueDragscroll from 'vue-dragscroll'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
 import 'firebase/analytics'
@@ -14,6 +15,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.config.productionTip = false
 Vue.use(Vuesax)
+Vue.use(VueDragscroll)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
