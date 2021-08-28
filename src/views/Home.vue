@@ -4,7 +4,7 @@
     <Header />
     <vs-alert :hidden="!show" color='danger' class="mb-3 text-start">
       <template #title>Failed to fetch Data</template>
-      <b style="font-size: 1rem">{{ error }}</b>
+      <b>{{ error }}</b>
     </vs-alert>
     <CryptoStats />
   </div>

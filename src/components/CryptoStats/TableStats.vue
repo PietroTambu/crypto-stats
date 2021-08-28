@@ -1,10 +1,11 @@
 <template>
   <div >
-    <b-table id="table" class="text-center text-nowrap" striped hover bordered responsive dark sticky-header="fit-content" v-dragscroll style="overflow: hidden;"
-        :items="coinMarketCapData"
-        :fields="fields"
-        :filter="filter"
-        sort-direction="asc"
+    <b-table id="table" class="text-center text-nowrap" striped hover responsive dark v-dragscroll
+             :sticky-header="tableHeight"
+             :items="coinMarketCapData"
+             :fields="fields"
+             :filter="filter"
+             sort-direction="asc"
     >
       <template #head(name)="data">
         <div class="d-none d-sm-block">
@@ -48,7 +49,7 @@
       </template>
       <template #cell(name)="data">
         <div class="d-block d-sm-none">
-          <b>{{data.value.symbol}}</b>
+          <b>{{data.value.symbol}} </b>
           <vs-tooltip dark right class="d-inline-block">
             <b-icon-info-circle></b-icon-info-circle>
             <template #tooltip>{{data.value.name}}, {{data.value.symbol}}
@@ -130,15 +131,27 @@ export default {
       coinMarketCapData: this.$store.state.coinMarketCap,
       state: false,
       filter: '',
-      loading: ''
+      loading: '',
+      tableHeight: ''
     }
   },
   methods: {
     formatNumber (number, toFixed, separateThousand) {
       return helpers.formatNumber(number, toFixed, separateThousand)
+    },
+    resizeTableHeight () {
+      const table = document.getElementById('table')
+      if (window.innerHeight - table.offsetTop > 290) {
+        this.tableHeight = String(window.innerHeight - table.offsetTop) + 'px'
+      } else {
+        this.tableHeight = '290px'
+      }
     }
   },
   async mounted () {
+    window.addEventListener('resize', this.resizeTableHeight)
+    window.addEventListener('orientationchange', this.resizeTableHeight)
+    this.resizeTableHeight()
     const table = document.getElementById('table')
     table.addEventListener('mousedown', () => { table.style.cursor = 'grab' })
     table.addEventListener('mouseup', () => { table.style.cursor = 'default' })
@@ -148,6 +161,8 @@ export default {
         case 'updateCoinMarketCap':
           this.coinMarketCapData = this.$store.state.coinMarketCap
           break
+        case 'resizeTable':
+          this.resizeTableHeight()
       }
     })
     this.state = await service.axiosRequest()

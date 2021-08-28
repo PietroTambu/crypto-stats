@@ -1,24 +1,20 @@
 // general HTML styles
 html {
-  font-weight: 100;
   font-size: 1rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 html, body {
-  max-height: 100vh;
+  height: 100vh;
 }
 
 body {
-  overflow: hidden;
+  overflow-x: hidden;
   text-align: center;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   color: $text-color;
   background-color: $default-bg;
-  background-attachment: fixed;
-  background-size: cover;
-  background-repeat: no-repeat;
   position: relative;
   width: 100vw;
 }

@@ -20,9 +20,10 @@ export default {
     async updateData () {
       this.$store.commit('overlayRequest')
       this.state = await service.axiosRequest()
+      await this.$store.commit('updateStateData')
       this.$store.commit('updateCoinMarketCap')
-      this.$store.commit('updateStateData')
       this.$store.commit('overlayRequest')
+      this.$store.commit('resizeTable')
     },
     getImage (name, extension) {
       return require(`@/assets/${name}.${extension}`)

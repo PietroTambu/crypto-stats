@@ -35,7 +35,8 @@ export default new Vuex.Store({
     },
     overlayRequest (state) {
       state.loading = !state.loading
-    }
+    },
+    resizeTable: function () {}
   },
   actions: {},
   modules: {}

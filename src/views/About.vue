@@ -8,7 +8,7 @@
       <li>Powered by <a href="https://vuejs.org/" target="_blank" class="text-white">Vue.js</a></li>
       <li>API Data from <a href="https://coinmarketcap.com/" target="_blank" class="text-white">CoinMarketCap</a></li>
       <li>Available on <a href="https://github.com/PietroTambu/crypto-stats" target="_blank" class="text-white">Github</a></li>
-      <li>Visit my site at <a href="https://pietro-tamburini.it" target="_blank" class="text-white">pietro-tamburini.it</a></li>
+      <li>Visit my site: <a href="https://pietro-tamburini.it" target="_blank" class="text-white">pietro-tamburini.it</a></li>
     </ul>
   </div>
 </template>
