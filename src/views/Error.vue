@@ -12,6 +12,7 @@ import Navbar from '../components/Navbar/Navbar'
 import Header from '../components/Header/Header'
 
 export default {
+  name: 'Error',
   components: {
     Navbar,
     Header

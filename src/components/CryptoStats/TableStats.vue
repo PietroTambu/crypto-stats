@@ -1,6 +1,6 @@
 <template>
   <div >
-    <b-table id="table" class="text-center text-nowrap" striped hover responsive dark v-dragscroll
+    <b-table id="table" class="text-center text-nowrap" striped hover responsive dark v-dragscroll.pass
              :sticky-header="tableHeight"
              :items="coinMarketCapData"
              :fields="fields"
@@ -141,6 +141,7 @@ export default {
     },
     resizeTableHeight () {
       const table = document.getElementById('table')
+      this.filter = ''
       if (window.innerHeight - table.offsetTop > 290) {
         this.tableHeight = String(window.innerHeight - table.offsetTop) + 'px'
       } else {

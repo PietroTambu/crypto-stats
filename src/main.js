@@ -13,11 +13,11 @@ import 'vuesax/dist/vuesax.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-Vue.config.productionTip = false
 Vue.use(Vuesax)
 Vue.use(VueDragscroll)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+Vue.config.productionTip = false
 
 const firebaseConfig = {
   apiKey: process.env.VUE_APP_FIREBASE_API_KEY,

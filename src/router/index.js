@@ -1,27 +1,23 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Home from '../views/Home.vue'
-import About from '../views/About.vue'
-import ErrorPage from '../views/Error.vue'
-
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: () => import('../views/Home.vue')
   },
   {
     path: '/about',
     name: 'About',
-    component: About
+    component: () => import('../views/About.vue')
   },
   {
-    path: '*',
+    path: '/*',
     name: 'Error',
-    component: ErrorPage
+    component: () => import('../views/Error.vue')
   }
 ]
 
