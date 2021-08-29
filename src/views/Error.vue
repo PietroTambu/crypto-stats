@@ -3,7 +3,8 @@
     <Navbar :isActive="{ error: true}" />
     <Header />
     <hr>
-    <h1 class="text-center mt-5">404 Not Found...</h1>
+    <h1 class="text-center mt-5">404. <span class="text-white-50">That's an error</span></h1>
+    <h3 class="text-center mt-5">The requested URL <u>{{ this.$route.fullPath }}</u> was not found on this server.</h3>
   </div>
 </template>
 

@@ -19,4 +19,8 @@ body {
   width: 100vw;
 }
 
+.unordered-list {
+  max-width: 300px;
+}
+
 .metropolis-bold { @include metropolis(Bold); }
