@@ -15,8 +15,8 @@ const service = {
         convert: 'USD'
       },
       headers: {
-        Accept: 'application/json',
-        'X-CMC_PRO_API_KEY': process.env.VUE_APP_COIN_MARKET_CAP_API
+        'X-CMC_PRO_API_KEY': process.env.VUE_APP_COIN_MARKET_CAP_API,
+        'x-cors-grida-api-key': process.env.VUE_APP_CORS_BRIDGED_CC
       },
       json: true
     }
